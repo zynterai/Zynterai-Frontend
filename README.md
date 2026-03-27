@@ -1,0 +1,2 @@
+# Zynterai-Frontend
+Landingpage

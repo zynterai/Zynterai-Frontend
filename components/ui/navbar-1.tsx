@@ -17,6 +17,11 @@ const sectionIds = navItems.map((item) => item.href.slice(1))
 
 const Navbar1 = () => {
   const pathname = usePathname()
+  if (typeof window !== 'undefined') {
+    // Debug: log the current pathname to verify what Next.js returns
+    // eslint-disable-next-line no-console
+    console.log('Navbar1 pathname:', pathname)
+  }
   const isHomePage = pathname === "/"
   const [isOpen, setIsOpen] = useState(false)
   const [activeSectionId, setActiveSectionId] = useState<string>(sectionIds[0])
@@ -100,7 +105,8 @@ const Navbar1 = () => {
         <nav className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => {
             const id = item.href.slice(1)
-            const isActive = activeSectionId === id
+            // Only highlight nav as active if on home page
+            const isActive = isHomePage && activeSectionId === id
             return (
               <motion.div
                 key={item.label}
@@ -114,7 +120,7 @@ const Navbar1 = () => {
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
                     "relative rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
-                    (isHomePage && isActive) || (!isHomePage && item.label === "Home")
+                    isActive
                       ? "bg-primary/18 text-primary shadow-sm ring-1 ring-primary/25"
                       : "text-foreground hover:bg-muted/60 hover:text-muted-foreground"
                   )}
@@ -134,7 +140,9 @@ const Navbar1 = () => {
           whileHover={{ scale: 1.05 }}
         >
           <a
-            href="/product"
+            href={pathname === "/zentrovai" ? "https://app.zynterai.com/" : "/zentrovai"}
+            target={pathname === "/zentrovai" ? "_blank" : undefined}
+            rel={pathname === "/zentrovai" ? "noopener noreferrer" : undefined}
             className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Get Started
@@ -168,7 +176,8 @@ const Navbar1 = () => {
             <div className="flex flex-col space-y-6">
               {navItems.map((item, i) => {
                 const id = item.href.slice(1)
-                const isActive = activeSectionId === id
+                // Only highlight nav as active if on home page
+                const isActive = isHomePage && activeSectionId === id
                 return (
                   <motion.div
                     key={item.label}
@@ -182,7 +191,7 @@ const Navbar1 = () => {
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
                         "inline-block rounded-full px-4 py-2 text-base font-medium transition-colors",
-                        (isHomePage && isActive) || (!isHomePage && item.label === "Home")
+                        isActive
                           ? "bg-primary/18 text-primary ring-1 ring-primary/25"
                           : "text-foreground"
                       )}
@@ -202,7 +211,9 @@ const Navbar1 = () => {
                 className="pt-6"
               >
                 <a
-                  href="/product"
+                  href={pathname === "/zentrovai" ? "https://app.zynterai.com/" : "/zentrovai"}
+                  target={pathname === "/zentrovai" ? "_blank" : undefined}
+                  rel={pathname === "/zentrovai" ? "noopener noreferrer" : undefined}
                   className="inline-flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                   onClick={toggleMenu}
                 >

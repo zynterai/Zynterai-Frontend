@@ -183,9 +183,13 @@ export function HeroSection() {
           </>
         }
         subtitle="Zynterai unifies your data into one intelligence layer—real-time dashboards, AI-generated reports, and alerts that keep leadership ahead of the curve."
-        secondaryAction={{
-          label: "Explore the Platform",
-          onClick: scrollToId("how-it-works"),
+        primaryAction={{
+          label: "Try ZentrovAI Now",
+          onClick: () => {
+            if (typeof window !== "undefined") {
+              window.location.href = "/zentrovai";
+            }
+          },
         }}
         socialProof={{
           avatars: [
@@ -197,7 +201,6 @@ export function HeroSection() {
         }}
       />
       <HeroRealtimeChatbot />
-
       <AnimatePresence>
         {showCookieNotice ? (
           <motion.div
